@@ -1,2 +1,1 @@
-# MedicalInformationManager
-A medical information manager.
+# Knowledge-based Prescription System
