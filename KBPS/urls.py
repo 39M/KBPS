@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
+from prescription_maker import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^/', login_required(views.Home.as_view())),
+    url(r'^signup/', views.Signup.as_view()),
+    url(r'^login/', views.Login.as_view()),
+    url(r'^logout/', login_required(views.Logout.as_view())),
 ]

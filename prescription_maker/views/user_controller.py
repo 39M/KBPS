@@ -12,9 +12,14 @@ from pytz import timezone
 import os
 import json
 
-from prescription_maker.models import *
-from user_controller import Signup, Login, Logout
+
+class Signup(View):
+    pass
 
 
-class Home(View):
+class Login(View):
+    pass
+
+
+class Logout(View):
     pass
