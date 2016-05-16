@@ -85,7 +85,7 @@ class Medicine(models.Model):
     incompatible_with = models.ManyToManyField("self")
 
     # extra
-    property = models.CharField(max_length=32768)
+    properties = models.CharField(max_length=32768)
     adverse_effect = models.CharField(max_length=32768)
     mechanism = models.CharField(max_length=32768)
     pharmacokinetics = models.CharField(max_length=32768)
