@@ -13,7 +13,7 @@ class Patient(models.Model):
     phone = models.CharField(max_length=32)
 
     # relation
-    prescription = models.ManyToManyField(Prescription)
+    prescriptions = models.ManyToManyField('Prescription')
 
     def __str__(self):
         return self.name
@@ -28,7 +28,7 @@ class Doctor(User):
     specialty = models.CharField(max_length=1024, null=True)
 
     # relation
-    prescription = models.ManyToManyField(Prescription)
+    prescriptions = models.ManyToManyField('Prescription')
 
     def __str__(self):
         return self.name
@@ -40,11 +40,11 @@ class Prescription(models.Model):
     date = models.DateTimeField()
 
     # relation
-    doctor = models.ForeignKey(Doctor)
-    patient = models.ForeignKey(Patient)
-    symptoms = models.ManyToManyField(Symptom)
-    diseases = models.ManyToManyField(Disease)
-    medicine = models.ManyToManyField(Medicine)
+    doctor_id = models.ForeignKey('Doctor')
+    patient_id = models.ForeignKey('Patient')
+    symptoms = models.ManyToManyField('Symptom')
+    diseases = models.ManyToManyField('Disease')
+    medicine = models.ManyToManyField('Medicine')
 
     def __str__(self):
         return self.content
@@ -58,16 +58,16 @@ class Prescription(models.Model):
 
 class Symptom(models.Model):
     # basic
-    name = models.CharField(256)
-    category = models.CharField(256)
-    description = models.CharField(32768)
+    name = models.CharField(max_length=256)
+    category = models.CharField(max_length=256)
+    description = models.CharField(max_length=32768)
 
     # relation
-    diseases = models.ManyToManyField(Disease)
-    medicine = models.ManyToManyField(Medicine)
+    diseases = models.ManyToManyField('Disease')
+    relate_medicine = models.ManyToManyField('Medicine')
 
     # extra
-    causes = models.CharField(32768, null=True)
+    causes = models.CharField(max_length=32768, null=True)
 
     def __str__(self):
         return self.name
@@ -75,13 +75,13 @@ class Symptom(models.Model):
 
 class Disease(models.Model):
     # basic
-    name = models.CharField(256)
-    category = models.CharField(256)
-    description = models.CharField(32768)
+    name = models.CharField(max_length=256)
+    category = models.CharField(max_length=256)
+    description = models.CharField(max_length=32768)
 
     # relation
-    symptoms = models.ManyToManyField(Symptom)
-    medicine = models.ManyToManyField(Medicine)
+    symptoms = models.ManyToManyField('Symptom')
+    relate_medicine = models.ManyToManyField('Medicine')
 
     # extra
     causes = models.CharField(max_length=32768, null=True)
@@ -98,14 +98,14 @@ class Disease(models.Model):
 
 class Medicine(models.Model):
     # basic
-    name = models.CharField(256)
-    category = models.CharField(256)
-    description = models.CharField(32768)
+    name = models.CharField(max_length=256)
+    category = models.CharField(max_length=256)
+    description = models.CharField(max_length=32768)
 
     # relation
-    diseases = models.ManyToManyField(Disease)
-    symptoms = models.ManyToManyField(Symptom)
-    incompatible_with = models.ManyToManyField("self")
+    diseases = models.ManyToManyField('Disease')
+    symptoms = models.ManyToManyField('Symptom')
+    incompatible_with = models.ManyToManyField('self')
 
     # extra
     properties = models.CharField(max_length=32768, null=True)
