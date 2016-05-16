@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Patient(models.Model):
@@ -13,17 +15,23 @@ class Patient(models.Model):
     # relation
     prescription = models.ManyToManyField(Prescription)
 
+    def __str__(self):
+        return self.name
 
-class Doctor(models.Model):
+
+class Doctor(User):
     # basic
     name = models.CharField(max_length=256)
     age = models.PositiveSmallIntegerField()
     gender = models.CharField(max_length=1)
     phone = models.CharField(max_length=32)
-    specialty = models.CharField(max_length=1024)
+    specialty = models.CharField(max_length=1024, null=True)
 
     # relation
     prescription = models.ManyToManyField(Prescription)
+
+    def __str__(self):
+        return self.name
 
 
 class Prescription(models.Model):
@@ -38,6 +46,15 @@ class Prescription(models.Model):
     diseases = models.ManyToManyField(Disease)
     medicine = models.ManyToManyField(Medicine)
 
+    def __str__(self):
+        return self.content
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.date = timezone.now()
+        self.date = timezone.now()
+        super(Prescription, self).save(*args, **kwargs)
+
 
 class Symptom(models.Model):
     # basic
@@ -50,7 +67,10 @@ class Symptom(models.Model):
     medicine = models.ManyToManyField(Medicine)
 
     # extra
-    causes = models.CharField(32768)
+    causes = models.CharField(32768, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Disease(models.Model):
@@ -64,13 +84,16 @@ class Disease(models.Model):
     medicine = models.ManyToManyField(Medicine)
 
     # extra
-    causes = models.CharField(max_length=32768)
-    management = models.CharField(max_length=32768)
-    prevention = models.CharField(max_length=32768)
-    mechanism = models.CharField(max_length=32768)
-    epidemiology = models.CharField(max_length=32768)
-    diagnosis = models.CharField(max_length=32768)
-    prognosis = models.CharField(max_length=32768)
+    causes = models.CharField(max_length=32768, null=True)
+    management = models.CharField(max_length=32768, null=True)
+    prevention = models.CharField(max_length=32768, null=True)
+    mechanism = models.CharField(max_length=32768, null=True)
+    epidemiology = models.CharField(max_length=32768, null=True)
+    diagnosis = models.CharField(max_length=32768, null=True)
+    prognosis = models.CharField(max_length=32768, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Medicine(models.Model):
@@ -85,7 +108,10 @@ class Medicine(models.Model):
     incompatible_with = models.ManyToManyField("self")
 
     # extra
-    properties = models.CharField(max_length=32768)
-    adverse_effect = models.CharField(max_length=32768)
-    mechanism = models.CharField(max_length=32768)
-    pharmacokinetics = models.CharField(max_length=32768)
+    properties = models.CharField(max_length=32768, null=True)
+    adverse_effect = models.CharField(max_length=32768, null=True)
+    mechanism = models.CharField(max_length=32768, null=True)
+    pharmacokinetics = models.CharField(max_length=32768, null=True)
+
+    def __str__(self):
+        return self.name
