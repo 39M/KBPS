@@ -19,6 +19,7 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -32,13 +33,14 @@
 
 <body>
 
-   
+    <!-- Return to top -->
+    <a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
 
     <!-- Header -->
     <header id="top" class="header">
         <div class="text-vertical-center">
             <h1>Knowledge-Based Prescription System</h1>
-            <h3>Select your role</h3>
+            <h3>Select Your Role and Log In</h3>
             <br>
             <a href="#doctor" class="btn btn-dark btn-lg">I am a doctor</a>
             <a href="#admin" class="btn btn-dark btn-lg">I am an administrator</a>
@@ -47,22 +49,33 @@
 
     <header id="doctor" class="header">
         <div class="text-vertical-center">
-            <h1>Doctor Login</h1>
-            <h3>Username</h3>
-            <h3><input type="password" placeholder="password"></h3>
-            <br>
-            <button class="btn btn-dark btn-lg">Login to Workspace</button>
+            <div class="login-page">
+                <div class="form">
+                    <form class="login-form" method="post" action="doctor/login.php">
+                        <h2>Doctor Login</h2>
+                        <input type="text" name="name" placeholder="username"/>
+                        <input type="password" name="pass" placeholder="password"/>
+                        <button>login</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </header>
 
     <header id="admin" class="header">
         <div class="text-vertical-center">
-            <h1>Administrator Login</h1>
-            <h3>Username: </h3>
-            <h3>Password: </h3>
-            <br>
-            <a href="#admin" class="btn btn-dark btn-dark">Login to Dashboard</a>
+            <div class="login-page">
+                <div class="form">
+                    <form class="login-form" method="post" action="admin/login.php">
+                        <h2>Admin Login</h2>
+                        <input type="text" name="name" placeholder="username"/>
+                        <input type="password" name="pass" placeholder="password"/>
+                        <button>login</button>
+                    </form>
+                </div>
+            </div>
         </div>
+
     </header>
 
     <!-- Footer -->
@@ -109,6 +122,19 @@
                     }
                 }
             });
+        });
+        // ===== Scroll to Top ====
+        $(window).scroll(function() {
+            if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
+                $('#return-to-top').fadeIn(200);    // Fade in the arrow
+            } else {
+                $('#return-to-top').fadeOut(200);   // Else fade out the arrow
+            }
+        });
+        $('#return-to-top').click(function() {      // When arrow is clicked
+            $('body,html').animate({
+                scrollTop : 0                       // Scroll to top of body
+            }, 500);
         });
     </script>
 </body>
