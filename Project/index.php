@@ -40,12 +40,31 @@
             <h1>Knowledge-Based Prescription System</h1>
             <h3>Select your role</h3>
             <br>
-            <a href="doctor/" class="btn btn-dark btn-lg">I am a doctor</a>
-            <a href="admin/" class="btn btn-dark btn-lg">I am an administrator</a>
+            <a href="#doctor" class="btn btn-dark btn-lg">I am a doctor</a>
+            <a href="#admin" class="btn btn-dark btn-lg">I am an administrator</a>
         </div>
     </header>
 
-    
+    <header id="doctor" class="header">
+        <div class="text-vertical-center">
+            <h1>Doctor Login</h1>
+            <h3>Username</h3>
+            <h3><input type="password" placeholder="password"></h3>
+            <br>
+            <button class="btn btn-dark btn-lg">Login to Workspace</button>
+        </div>
+    </header>
+
+    <header id="admin" class="header">
+        <div class="text-vertical-center">
+            <h1>Administrator Login</h1>
+            <h3>Username: </h3>
+            <h3>Password: </h3>
+            <br>
+            <a href="#admin" class="btn btn-dark btn-dark">Login to Dashboard</a>
+        </div>
+    </header>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -67,6 +86,31 @@
         </div>
     </footer>
 
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script>
+        // Scrolls to the selected menu item on the page
+        $(function() {
+            $('a[href*=#]:not([href=#])').click(function() {
+                if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000);
+                        return false;
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
