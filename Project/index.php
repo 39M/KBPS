@@ -41,9 +41,8 @@
         <div class="text-vertical-center">
             <h1>Knowledge-Based Prescription System</h1>
             <h3>Select Your Role and Log In</h3>
-            <br>
             <a href="#doctor" class="btn btn-dark btn-lg">I am a doctor</a>
-            <a href="#admin" class="btn btn-dark btn-lg">I am an administrator</a>
+            <a href="#admin" class="btn btn-dark btn-lg">I am an admin</a>
         </div>
     </header>
 
