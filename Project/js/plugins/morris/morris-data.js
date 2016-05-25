@@ -1,64 +1,44 @@
 // Morris.js Charts sample data for SB Admin template
 
-$(function() {
+$(function () {
 
     // Area Chart
     Morris.Area({
         element: 'morris-area-chart',
         data: [{
-            period: '2010 Q1',
-            iphone: 2666,
-            ipad: null,
-            itouch: 2647
-        }, {
-            period: '2010 Q2',
-            iphone: 2778,
-            ipad: 2294,
-            itouch: 2441
-        }, {
-            period: '2010 Q3',
-            iphone: 4912,
-            ipad: 1969,
-            itouch: 2501
-        }, {
-            period: '2010 Q4',
-            iphone: 3767,
-            ipad: 3597,
-            itouch: 5689
-        }, {
-            period: '2011 Q1',
-            iphone: 6810,
-            ipad: 1914,
-            itouch: 2293
-        }, {
-            period: '2011 Q2',
-            iphone: 5670,
-            ipad: 4293,
-            itouch: 1881
-        }, {
-            period: '2011 Q3',
-            iphone: 4820,
-            ipad: 3795,
-            itouch: 1588
-        }, {
-            period: '2011 Q4',
-            iphone: 15073,
-            ipad: 5967,
-            itouch: 5175
-        }, {
-            period: '2012 Q1',
-            iphone: 10687,
-            ipad: 4460,
-            itouch: 2028
-        }, {
-            period: '2012 Q2',
-            iphone: 8432,
-            ipad: 5713,
-            itouch: 1791
-        }],
+            period: '2016-01-01',
+            pres: 50
+        }, {period: '2016-01-01', pres: 55}, {period: '2016-01-02', pres: 49}, {
+            period: '2016-01-03',
+            pres: 55
+        }, {period: '2016-01-04', pres: 59}, {period: '2016-01-05', pres: 40}, {
+            period: '2016-01-06',
+            pres: 47
+        }, {period: '2016-01-07', pres: 47}, {period: '2016-01-08', pres: 43}, {
+            period: '2016-01-09',
+            pres: 48
+        }, {period: '2016-01-10', pres: 53}, {period: '2016-01-11', pres: 57}, {
+            period: '2016-01-12',
+            pres: 55
+        }, {period: '2016-01-13', pres: 57}, {period: '2016-01-14', pres: 56}, {
+            period: '2016-01-15',
+            pres: 58
+        }, {period: '2016-01-16', pres: 56}, {period: '2016-01-17', pres: 57}, {
+            period: '2016-01-18',
+            pres: 52
+        }, {period: '2016-01-19', pres: 40}, {period: '2016-01-20', pres: 46}, {
+            period: '2016-01-21',
+            pres: 49
+        }, {period: '2016-01-22', pres: 43}, {period: '2016-01-23', pres: 46}, {
+            period: '2016-01-24',
+            pres: 48
+        }, {period: '2016-01-25', pres: 51}, {period: '2016-01-26', pres: 50}, {
+            period: '2016-01-27',
+            pres: 56
+        }, {period: '2016-01-28', pres: 41}, {period: '2016-01-29', pres: 51}, {period: '2016-01-30', pres: 60}],
         xkey: 'period',
-        ykeys: ['iphone', 'ipad', 'itouch'],
-        labels: ['iPhone', 'iPad', 'iPod Touch'],
+        ykeys: ['pres'],
+        labels: ['Prescription'],
         pointSize: 2,
         hideHover: 'auto',
         resize: true
@@ -68,14 +48,11 @@ $(function() {
     Morris.Donut({
         element: 'morris-donut-chart',
         data: [{
-            label: "Download Sales",
-            value: 12
+            label: "Male",
+            value: 378
         }, {
-            label: "In-Store Sales",
-            value: 30
-        }, {
-            label: "Mail-Order Sales",
-            value: 20
+            label: "Female",
+            value: 835
         }],
         resize: true
     });
@@ -179,7 +156,7 @@ $(function() {
         }, {
             d: '2012-10-31',
             visits: 1892
-        }, ],
+        },],
         // The name of the data record attribute that contains x-visitss.
         xkey: 'd',
         // A list of names of data record attributes that contain y-visitss.
