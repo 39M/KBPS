@@ -26,6 +26,22 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script>
+        function show_patient_table(ele) {
+            if (ele.value == "add_patient") {
+                document.getElementById('patient_form').style.display = "block";
+                document.getElementById('patient_name').required = true;
+                document.getElementById('patient_age').required = true;
+                document.getElementById('patient_gender').required = true;
+            }
+            else {
+                document.getElementById('patient_form').style.display = "none";
+                document.getElementById('patient_name').required = false;
+                document.getElementById('patient_age').required = false;
+                document.getElementById('patient_gender').required = false;
+            }
+        }
+    </script>
 
 </head>
 
@@ -50,6 +66,7 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-user"></i>
+                    Doctor
                     <!--                        TODO: Username -->
                     <b class="caret"></b>
                 </a>
@@ -99,209 +116,69 @@
             </div>
             <!-- /.row -->
 
-            <div class="row">
-                <div class="col-lg-6">
+            <form role="form">
+                <div class="form-group">
+                    <label>Patient</label>
+                    <select class="form-control" title="Select Patient" onchange="show_patient_table(this)">
+                        <option value="add_patient">Add New</option>
 
-                    <form role="form">
-
-                        <div class="form-group">
-                            <label>Symptoms</label>
-                            <input class="form-control" placeholder="Select patient symptoms">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Text area</label>
-                            <textarea class="form-control" rows="3"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Checkboxes</label>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">Checkbox 1
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">Checkbox 2
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="">Checkbox 3
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Inline Checkboxes</label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox">1
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox">2
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox">3
-                            </label>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Radio Buttons</label>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1"
-                                           checked>Radio 1
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Radio 2
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">Radio 3
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Inline Radio Buttons</label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1"
-                                       checked>1
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2"
-                                       value="option2">2
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline3"
-                                       value="option3">3
-                            </label>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Selects</label>
-                            <select class="form-control">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Multiple Selects</label>
-                            <select multiple class="form-control">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-default">Submit Button</button>
-                        <button type="reset" class="btn btn-default">Reset Button</button>
-
-                    </form>
-
+                        <option>Patient 1</option>
+                        <option>Patient 2</option>
+                        <option>Patient 3</option>
+                        <option>Patient 4</option>
+                        <option>Patient 5</option>
+                    </select>
                 </div>
-                <div class="col-lg-6">
-                    <h1>Disabled Form States</h1>
 
-                    <form role="form">
-
-                        <fieldset disabled>
-
-                            <div class="form-group">
-                                <label for="disabledSelect">Disabled input</label>
-                                <input class="form-control" id="disabledInput" type="text" placeholder="Disabled input"
-                                       disabled>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="disabledSelect">Disabled select menu</label>
-                                <select id="disabledSelect" class="form-control">
-                                    <option>Disabled select</option>
-                                </select>
-                            </div>
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox">Disabled Checkbox
-                                </label>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Disabled Button</button>
-
-                        </fieldset>
-
-                    </form>
-
-                    <h1>Form Validation</h1>
-
-                    <form role="form">
-
-                        <div class="form-group has-success">
-                            <label class="control-label" for="inputSuccess">Input with success</label>
-                            <input type="text" class="form-control" id="inputSuccess">
-                        </div>
-
-                        <div class="form-group has-warning">
-                            <label class="control-label" for="inputWarning">Input with warning</label>
-                            <input type="text" class="form-control" id="inputWarning">
-                        </div>
-
-                        <div class="form-group has-error">
-                            <label class="control-label" for="inputError">Input with error</label>
-                            <input type="text" class="form-control" id="inputError">
-                        </div>
-
-                    </form>
-
-                    <h1>Input Groups</h1>
-
-                    <form role="form">
-
-                        <div class="form-group input-group">
-                            <span class="input-group-addon">@</span>
-                            <input type="text" class="form-control" placeholder="Username">
-                        </div>
-
-                        <div class="form-group input-group">
-                            <input type="text" class="form-control">
-                            <span class="input-group-addon">.00</span>
-                        </div>
-
-                        <div class="form-group input-group">
-                            <span class="input-group-addon"><i class="fa fa-eur"></i></span>
-                            <input type="text" class="form-control" placeholder="Font Awesome Icon">
-                        </div>
-
-                        <div class="form-group input-group">
-                            <span class="input-group-addon">$</span>
-                            <input type="text" class="form-control">
-                            <span class="input-group-addon">.00</span>
-                        </div>
-
-                        <div class="form-group input-group">
-                            <input type="text" class="form-control">
-                            <span class="input-group-btn"><button class="btn btn-default" type="button"><i
-                                        class="fa fa-search"></i></button></span>
-                        </div>
-
-                    </form>
-
-                    <p>For complete documentation, please visit <a href="http://getbootstrap.com/css/#forms">Bootstrap's
-                            Form Documentation</a>.</p>
-
+                <div id="patient_form" style="display: block">
+                    <div class="form-group">
+                        <label>Patient Name</label>
+                        <input class="form-control" id="patient_name" placeholder="Enter Patient Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Patient Age</label>
+                        <input type="number" class="form-control" id="patient_age" placeholder="Enter Patient Age">
+                    </div>
+                    <div class="form-group">
+                        <label>Patient Gender</label>
+                        <select class="form-control" id="patient_gender" title="Select Patient Gender">
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Others</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <!-- /.row -->
+
+                <div class="form-group">
+                    <label>Symptoms</label>
+                    <input class="form-control" placeholder="Select patient symptoms">
+                </div>
+
+                <div class="form-group">
+                    <label>Diseases</label>
+                    <input class="form-control" placeholder="Select patient diseases">
+                </div>
+
+                <div class="form-group">
+                    <label>Medicine</label>
+                    <select multiple class="form-control">
+                        <option>Medicine 1</option>
+                        <option>Medicine 2</option>
+                        <option>Medicine 3</option>
+                        <option>Medicine 4</option>
+                        <option>Medicine 5</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                            <textarea class="form-control" rows="3"
+                                      placeholder="Write prescription description"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="reset" class="btn btn-default">Reset</button>
+            </form>
 
         </div>
         <!-- /.container-fluid -->
