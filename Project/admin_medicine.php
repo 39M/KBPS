@@ -121,9 +121,25 @@ require_once("connect.php");
             </div>
 
             <?php
-                if (!empty($_POST)) {
+                if (isset($_POST['medicine_name'])) {
+                    
                     if (isset($_GET['action']) && $_GET['action'] == 'new') {
+
                         // INSERT INTO
+                        $sql = "INSERT INTO medicine (ID, Name, Category, Description, Property, Adverse_effect, Pharmacokinetics, Mechanism) VALUES (NULL, '".$_POST["medicine_name"]."', '".$_POST["medicine_category"]."', '".$_POST["medicine_description"]."', '".$_POST["medicine_property"]."', '".$_POST["medicine_adverse_effect"]."', '".$_POST["medicine_pharmacokinetics"]."', '".$_POST["medicine_mechanism"]."')";
+                      //  die($sql);
+                        $flag = mysqli_query($con, $sql);
+                            if ($flag == true) {
+                                echo '<div class="alert alert-success fade in">';
+                                echo '<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>';
+                                echo "<strong>Success!</strong> You have inserted medicine " . $_POST["medicine_name"] . ".";
+                                echo "</div>";
+                            } else {
+                                echo '<div class="alert alert-danger fade in">';
+                                echo '<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>';
+                                echo "<strong>Failed!</strong> Unable to insert medicine " .$_POST["medicine_name"];
+                                echo "</div>";
+                            }
                     } else if (isset($_GET['action']) && $_GET['action'] == 'edit') {
                         // UPDATE 
                     }
@@ -142,79 +158,72 @@ require_once("connect.php");
                 }
                 else if (isset($_GET['action']) && $_GET['action'] == 'edit') {
                     $showform = true;
-                    $result = mysqli_query();
                     $id = $_GET['id'];
-                    $name = "";
-                    $category = "";
-                    $description = "";
-                    $property = "";
-                    $adverse_effect = "";
-                    $pharmacokinetics = "";
-                    $mechanism = "";
+                    $result =mysqli_query($con, "SELECT FROM medicine WHERE id=".$_GET['id']);
+                    $row = mysqli_fetch_array($result);
+                    $name = $row['name'];
+                    $category = $row['category'];
+                    $description = $row['description'];
+                    $property = $row['property'];
+                    $adverse_effect = $row['adverse_effect'];
+                    $pharmacokinetics = $row['pharmacokinetics'];
+                    $mechanism = $row['mechanism'];
                 }
                 if ($showform) {
                     ?>
 
-                <form role="form" method="post" action="admin_medicine.php?action=<?$_GET['action']?>">
-                        <div class="form-group">
-                            <label>Patient</label>
-                            <select class="form-control" title="Select Patient" onchange="show_patient_table(this)">
-                                <option value="add_patient">Add New</option>
-
-                                <option>Patient 1</option>
-                                <option>Patient 2</option>
-                                <option>Patient 3</option>
-                                <option>Patient 4</option>
-                                <option>Patient 5</option>
-                            </select>
-                        </div>
-
+                <form role="form" method="post" action="admin_medicine.php?action=<?php echo $_GET['action'];?>">
+                       
                         <div id="patient_form" style="display: block">
+                            <?php if ($_GET['action'] == 'edit') { ?>
                             <div class="form-group">
-                                <label>Patient Name</label>
-                                <input class="form-control" id="patient_name" placeholder="Enter Patient Name">
+                                <label>Medicine ID</label>
+                                <input class="form-control" name="ID" placeholder="Enter Medicine ID" value= <?php echo $id;?> >
                             </div>
+                            <?php } ?>
+
                             <div class="form-group">
-                                <label>Patient Age</label>
-                                <input type="number" class="form-control" id="patient_age" placeholder="Enter Patient Age">
+                                <label>Medicine Name</label>
+                                <input class="form-control" name="medicine_name" placeholder="Enter Medicine Name" value= <?php echo $name;?>>
                             </div>
+
+
                             <div class="form-group">
-                                <label>Patient Gender</label>
-                                <select class="form-control" id="patient_gender" title="Select Patient Gender">
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                    <option>Others</option>
-                                </select>
+                                <label> Medicine Category</label>
+                                <input class="form-control" name="medicine_category" placeholder="Enter Medicine Category" value= <?php echo $category;?>>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label>Symptoms</label>
-                            <input class="form-control" placeholder="Select patient symptoms">
-                        </div>
 
-                        <div class="form-group">
-                            <label>Diseases</label>
-                            <input class="form-control" placeholder="Select patient diseases">
-                        </div>
+                            <div class="form-group">
+                                <label> medicine_description</label>
+                                <textarea  rows="3"  class="form-control" name="medicine_description" placeholder="Enter medicine_description" value= <?php echo $adverse_effect;?>></textarea>
+                            </div>
 
-                        <div class="form-group">
-                            <label>Medicine</label>
-                            <select multiple class="form-control">
-                                <option>Medicine 1</option>
-                                <option>Medicine 2</option>
-                                <option>Medicine 3</option>
-                                <option>Medicine 4</option>
-                                <option>Medicine 5</option>
-                            </select>
-                        </div>
 
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea class="form-control" rows="3"
-                                      placeholder="Write prescription description"></textarea>
-                        </div>
+                            <div class="form-group">
+                                <label> Medicine medicine_roperty</label>
+                                <textarea  rows="3" class="form-control" name="medicine_property" placeholder="Enter medicine_property" value= <?php echo $pharmacokinetics;?>></textarea>
+                            </div>
 
+                            <div class="form-group">
+                                <label> Medicine medicine_pharmacokinetics</label>
+                                <textarea  rows="3" class="form-control" name="medicine_pharmacokinetics" placeholder="Enter medicine_pharmacokinetics" value = <?php echo $mechanism;?>></textarea>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label> Medicine medicine_mechanism</label>
+                                <textarea  rows="3" class="form-control" name="medicine_mechanism" placeholder="Enter medicine_mechanism" value = <?php echo $mechanism;?>></textarea>
+                            </div>
+
+                                                    <div class="form-group">
+                                <label> Medicine medicine_adverse_effect</label>
+                                <textarea  rows="3" class="form-control" name="medicine_adverse_effect" placeholder="Enter medicine_adverse_effect" value = <?php echo $mechanism;?>></textarea>
+                            </div>
+
+
+
+                        </div>
                         <button type="submit" class="btn btn-primary">Create</button>
                         <button type="reset" class="btn btn-default">Reset</button>
                     </form>
