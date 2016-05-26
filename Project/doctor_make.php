@@ -1,11 +1,3 @@
-<?php
-session_start();    // init session
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor') {
-    header("Location:index.php");  // not logged in, redirect
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,12 +66,13 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor') {
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-user"></i>
-                    <?php echo $_SESSION["username"]; ?>
+                    Doctor
+                    <!--                        TODO: Username -->
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="login.php?action=logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                     </li>
                 </ul>
             </li>

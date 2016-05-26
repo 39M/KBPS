@@ -121,15 +121,110 @@ require_once("connect.php");
             </div>
 
             <?php
+                if (!empty($_POST)) {
+                    if (isset($_GET['action']) && $_GET['action'] == 'new') {
+                        // INSERT INTO
+                    } else if (isset($_GET['action']) && $_GET['action'] == 'edit') {
+                        // UPDATE 
+                    }
+                }
+                $showform = false;
                 if (isset($_GET['action']) && $_GET['action'] == 'new') {
-
+                    $showform = true;
+                    $id = "";
+                    $name = "";
+                    $category = "";
+                    $description = "";
+                    $property = "";
+                    $adverse_effect = "";
+                    $pharmacokinetics = "";
+                    $mechanism = "";
                 }
                 else if (isset($_GET['action']) && $_GET['action'] == 'edit') {
+                    $showform = true;
+                    $result = mysqli_query();
+                    $id = $_GET['id'];
+                    $name = "";
+                    $category = "";
+                    $description = "";
+                    $property = "";
+                    $adverse_effect = "";
+                    $pharmacokinetics = "";
+                    $mechanism = "";
+                }
+                if ($showform) {
+                    ?>
 
+                <form role="form" method="post" action="admin_medicine.php?action=<?$_GET['action']?>">
+                        <div class="form-group">
+                            <label>Patient</label>
+                            <select class="form-control" title="Select Patient" onchange="show_patient_table(this)">
+                                <option value="add_patient">Add New</option>
+
+                                <option>Patient 1</option>
+                                <option>Patient 2</option>
+                                <option>Patient 3</option>
+                                <option>Patient 4</option>
+                                <option>Patient 5</option>
+                            </select>
+                        </div>
+
+                        <div id="patient_form" style="display: block">
+                            <div class="form-group">
+                                <label>Patient Name</label>
+                                <input class="form-control" id="patient_name" placeholder="Enter Patient Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Patient Age</label>
+                                <input type="number" class="form-control" id="patient_age" placeholder="Enter Patient Age">
+                            </div>
+                            <div class="form-group">
+                                <label>Patient Gender</label>
+                                <select class="form-control" id="patient_gender" title="Select Patient Gender">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Others</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Symptoms</label>
+                            <input class="form-control" placeholder="Select patient symptoms">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Diseases</label>
+                            <input class="form-control" placeholder="Select patient diseases">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Medicine</label>
+                            <select multiple class="form-control">
+                                <option>Medicine 1</option>
+                                <option>Medicine 2</option>
+                                <option>Medicine 3</option>
+                                <option>Medicine 4</option>
+                                <option>Medicine 5</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea class="form-control" rows="3"
+                                      placeholder="Write prescription description"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button type="reset" class="btn btn-default">Reset</button>
+                    </form>
+
+                    <?php
                 }
                 else {
 
             ?>
+
             <div class="row">
                 <div class="col-lg-12">
                     <form role="form" method="get" action="admin_medicine.php">
@@ -184,7 +279,7 @@ require_once("connect.php");
                                     printf("<tr></tr><td>%d</td><td>%s</td><td>%s</td>", $row['ID'], $row['Name'], $row['Category']);
                                     if (strlen($row["Description"]) > 50) printf("<td>%s...</td>", substr($row["Description"], 0, 50));
                                     else printf("<td>%s</td>", $row["Description"]);
-                                    printf("<td><a href='admin_medicine.php?edit=%d'>Edit</a></td><td><a href='admin_medicine.php?action=delete&id=%d'>Delete</a></td></tr>", $row['ID'], $row['ID']);
+                                    printf("<td><a href='admin_medicine.php?action=edit&id=%d'>Edit</a></td><td><a href='admin_medicine.php?action=delete&id=%d'>Delete</a></td></tr>", $row['ID'], $row['ID']);
                                 }
                             ?>
                             </tbody>
