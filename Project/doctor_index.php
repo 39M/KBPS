@@ -1,7 +1,6 @@
 <?php
 session_start();    // init session
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
-{
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor') {
     header("Location:index.php");  // not logged in, redirect
     exit();
 }
