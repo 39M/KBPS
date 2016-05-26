@@ -1,3 +1,11 @@
+<?php
+session_start();    // init session
+if (isset($_SESSION['role']))
+{
+    header("Location:".$_SESSION['role']."_index.php");  // logged in, redirect
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,10 +58,19 @@
         <div class="text-vertical-center">
             <div class="login-page">
                 <div class="form">
-                    <form class="login-form" method="post" action="doctor/login.php">
+                    <form class="login-form" method="post" action="login.php">
                         <h2>Doctor Login</h2>
-                        <input type="text" name="name" placeholder="username"/>
-                        <input type="password" name="pass" placeholder="password"/>
+                        <input type="hidden" name="role" value="doctor" />
+                        <?php
+                            if (isset($_GET["doctor_fail"])) {
+                                echo '<input type="text" name="username" placeholder="failed! username again."/>';
+                                echo '<input type="password" name="password" placeholder="failed! password again."/>';
+                            }
+                            else {
+                                echo '<input type="text" name="username" placeholder="username"/>';
+                                echo '<input type="password" name="password" placeholder="password"/>';
+                            }
+                        ?>
                         <button>login</button>
                     </form>
                 </div>
@@ -65,10 +82,19 @@
         <div class="text-vertical-center">
             <div class="login-page">
                 <div class="form">
-                    <form class="login-form" method="post" action="admin/login.php">
+                    <form class="login-form" method="post" action="login.php">
                         <h2>Admin Login</h2>
-                        <input type="text" name="name" placeholder="username"/>
-                        <input type="password" name="pass" placeholder="password"/>
+                        <input type="hidden" name="role" value="admin" />
+                        <?php
+                        if (isset($_GET["admin_fail"])) {
+                            echo '<input type="text" name="username" placeholder="failed! username again."/>';
+                            echo '<input type="password" name="password" placeholder="failed! password again."/>';
+                        }
+                        else {
+                            echo '<input type="text" name="username" placeholder="username"/>';
+                            echo '<input type="password" name="password" placeholder="password"/>';
+                        }
+                        ?>
                         <button>login</button>
                     </form>
                 </div>
@@ -92,7 +118,7 @@
                     </ul>
                     <br>
                     <hr class="small">
-                    <p class="text-muted">Copyright &copy; Yet Another Database Group 2016</p>
+                    <p class="text-muted">Copyright &copy; 2016<br>Yet Another Database Group</p>
                 </div>
             </div>
         </div>
