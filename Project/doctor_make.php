@@ -4,6 +4,13 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor') {
     header("Location:index.php");  // not logged in, redirect
     exit();
 }
+
+$connection = mysqli_connect('localhost', 'root', '', 'KBPS_SYSTEM');
+if (mysqli_connect_errno()) {
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    header("Location:index.php");  // error, redirect
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
