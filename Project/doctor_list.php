@@ -144,7 +144,7 @@ if (mysqli_connect_errno()) {
                         $query .= ' where Content like \'%' . $_GET['kw'] . '%\'';
                     }
 
-                    echo $query;
+//                    echo $query;
 
                     $result = mysqli_query($connection, $query);
                     if ($result)

@@ -11,6 +11,36 @@ if (mysqli_connect_errno()) {
     header("Location:index.php");  // error, redirect
     exit();
 }
+
+$going_to_make = false;
+$patient_add_failed = false;
+$prescription_add_failed = false;
+
+if (isset($_POST['patient'])) {
+    $going_to_make = true;
+
+    if ($_POST['patient'] == 'add_patient') {
+        $p_name = $_POST['patient_name'];
+        $p_gender = $_POST['patient_gender'];
+        $p_age = $_POST['patient_age'];
+
+        $query = "INSERT INTO patient (Name, Gender, Age) VALUES ('$p_name', '$p_gender', $p_age)";
+//        echo $query;
+        if (!mysqli_query($connection, $query)) {
+            $patient_add_failed = true;
+        }
+        $p_id = $connection->insert_id;
+    } else
+        $p_id = $_POST['patient'];
+
+    $d_id = 1;
+    $content = $_POST['description'];
+
+    $query = "INSERT INTO prescription (patient_ID, doctor_ID, Content, Date) VALUES ($p_id, $d_id, '$content', now())";
+//    echo $query;
+    if (!mysqli_query($connection, $query))
+        $prescription_add_failed = true;
+}
 ?>
 
 <!DOCTYPE html>
@@ -131,63 +161,70 @@ if (mysqli_connect_errno()) {
             </div>
             <!-- /.row -->
 
-            <form role="form">
+            <form role="form" action="doctor_make.php" method="post">
                 <div class="form-group">
                     <label>Patient</label>
-                    <select class="form-control" title="Select Patient" onchange="show_patient_table(this)">
+                    <select required class="form-control" name="patient" title="Select Patient"
+                            onchange="show_patient_table(this)">
                         <option value="add_patient">Add New</option>
 
-                        <option>Patient 1</option>
-                        <option>Patient 2</option>
-                        <option>Patient 3</option>
-                        <option>Patient 4</option>
-                        <option>Patient 5</option>
+                        <?php
+                        $result = mysqli_query($connection, 'select * from patient')->fetch_all();
+                        foreach ($result as $m)
+                            echo '<option value="' . $m[0] . '">' . $m[1] . '</option>'
+                        ?>
+
+                        <!--                        <option>Patient 2</option>-->
                     </select>
                 </div>
 
                 <div id="patient_form" style="display: block">
                     <div class="form-group">
                         <label>Patient Name</label>
-                        <input class="form-control" id="patient_name" placeholder="Enter Patient Name">
+                        <input required class="form-control" id="patient_name" name="patient_name"
+                               placeholder="Enter Patient Name">
                     </div>
                     <div class="form-group">
                         <label>Patient Age</label>
-                        <input type="number" class="form-control" id="patient_age" placeholder="Enter Patient Age">
+                        <input required type="number" class="form-control" id="patient_age" name="patient_age"
+                               placeholder="Enter Patient Age">
                     </div>
                     <div class="form-group">
                         <label>Patient Gender</label>
-                        <select class="form-control" id="patient_gender" title="Select Patient Gender">
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Others</option>
+                        <select required class="form-control" id="patient_gender" name="patient_gender"
+                                title="Select Patient Gender">
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value="O">Others</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Symptoms</label>
-                    <input class="form-control" placeholder="Select patient symptoms">
+                    <input required class="form-control" name="symptoms" placeholder="Select patient symptoms">
                 </div>
 
                 <div class="form-group">
                     <label>Diseases</label>
-                    <input class="form-control" placeholder="Select patient diseases">
+                    <input required class="form-control" name="diseases" placeholder="Select patient diseases">
                 </div>
 
                 <div class="form-group">
                     <label>Medicine</label>
-                    <select multiple class="form-control">
-                        <option>Medicine 1</option>
-                        <option>Medicine 2</option>
-                        <option>Medicine 3</option>
-                        <option>Medicine 4</option>
-                        <option>Medicine 5</option>
+                    <select required multiple class="form-control" title="medicine" name="medicine">
+                        <?php
+                        $result = mysqli_query($connection, 'select * from medicine')->fetch_all();
+                        foreach ($result as $m)
+                            echo '<option value="' . $m[0] . '">' . $m[1] . '</option>'
+                        ?>
+                        <!--                        <option>Medicine 1</option>-->
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label>Description</label>
-                            <textarea class="form-control" rows="3"
+                            <textarea required class="form-control" name="description" rows="3"
                                       placeholder="Write prescription description"></textarea>
                 </div>
 
@@ -209,6 +246,28 @@ if (mysqli_connect_errno()) {
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
+
+<?php
+
+if (!$going_to_make)
+    exit();
+
+if ($patient_add_failed) {
+    echo '<script language="javascript">' .
+        'alert("Patient add failed!")' .
+        '</script>';
+    exit();
+}
+
+if ($prescription_add_failed)
+    echo '<script language="javascript">' .
+        'alert("Prescription made failed!")' .
+        '</script>';
+else
+    echo '<script language="javascript">' .
+        'alert("Prescription made successfully!")' .
+        '</script>';
+?>
 
 </body>
 
