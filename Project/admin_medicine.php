@@ -92,6 +92,9 @@ require_once("connect.php");
                 <li>
                     <a href="admin_prescription.php"><i class="fa fa-fw fa-desktop"></i> Prescription List</a>
                 </li>
+                <li>
+                    <a href="admin_log.php"><i class="fa fa-fw fa-desktop"></i> System Logs</a>
+                </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -125,7 +128,7 @@ require_once("connect.php");
                     if (isset($_GET['action']) && $_GET['action'] == 'new') {
                         // INSERT INTO
                     } else if (isset($_GET['action']) && $_GET['action'] == 'edit') {
-                        // UPDATE 
+                        // UPDATE
                     }
                 }
                 $showform = false;
@@ -142,8 +145,9 @@ require_once("connect.php");
                 }
                 else if (isset($_GET['action']) && $_GET['action'] == 'edit') {
                     $showform = true;
-                    $result = mysqli_query();
                     $id = $_GET['id'];
+                    $result = mysqli_query("select * from medicine where ID='$id'");
+    
                     $name = "";
                     $category = "";
                     $description = "";
@@ -155,7 +159,7 @@ require_once("connect.php");
                 if ($showform) {
                     ?>
 
-                <form role="form" method="post" action="admin_medicine.php?action=<?$_GET['action']?>">
+                <form role="form" method="post" action="admin_medicine.php?action=<?php echo $_GET['action']?>">
                         <div class="form-group">
                             <label>Patient</label>
                             <select class="form-control" title="Select Patient" onchange="show_patient_table(this)">

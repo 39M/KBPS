@@ -92,6 +92,9 @@ require_once("connect.php");
                 <li>
                     <a href="admin_prescription.php"><i class="fa fa-fw fa-desktop"></i> Prescription List</a>
                 </li>
+                <li>
+                    <a href="admin_log.php"><i class="fa fa-fw fa-desktop"></i> System Logs</a>
+                </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -261,85 +264,28 @@ require_once("connect.php");
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Time Line</h3>
+                            <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> System Logs</h3>
                         </div>
                         <div class="panel-body">
                             <div class="list-group">
-                                <!--                                    TODO: Time Line-->
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">just now</span>
-                                    <i class="fa fa-fw fa-calendar"></i> New task
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">4 minutes ago</span>
-                                    <i class="fa fa-fw fa-comment"></i> New commented
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">46 minutes ago</span>
-                                    <i class="fa fa-fw fa-money"></i> An order has been paid
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">1 hour ago</span>
-                                    <i class="fa fa-fw fa-user"></i> A new patient made an order
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <span class="badge">2 hours ago</span>
-                                    <i class="fa fa-fw fa-check"></i> Completed a prescription
-                                </a>
+                                <!-- System Log -->
+                            <?php  // number of prescriptions
+                                $logs = mysqli_query($con, "SELECT * FROM system_log");
+                                while ($log = mysqli_fetch_array($logs)) {
+                                    printf('<a href="#" class="list-group-item">');
+                                    printf('<span class="badge">%s</span>', $log['time']);
+                                    if ($log['operation'] == 'DELETE')
+                                        printf('<i class="fa fa-fw fa-trash-o"></i> ');
+                                    else if ($log['operation'] == 'UPDATE')
+                                        printf('<i class="fa fa-fw fa-pencil-o"></i> ');
+                                    else printf('<i class="fa fa-fw fa-check"></i> ');
+                                    printf('%s on %s %s', $log['operation'], $log['type'], $log['medicine_name/diease_name/doctor_name/']);
+                                    printf('</a>');
+                                }
+                            ?>
                             </div>
                             <div class="text-right">
-                                <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>Order #</th>
-                                        <th>Order Date</th>
-                                        <th>Order Time</th>
-                                        <th>Amount (USD)</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <!--                                            TODO: Transactions-->
-                                    <tr>
-                                        <td>3326</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:29 PM</td>
-                                        <td>$321.33</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3325</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:20 PM</td>
-                                        <td>$234.34</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3324</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:03 PM</td>
-                                        <td>$724.17</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3323</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:00 PM</td>
-                                        <td>$23.71</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="text-right">
-                                <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="admin-log.php">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

@@ -1,18 +1,3 @@
-<?php
-session_start();    // init session
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor') {
-    header("Location:index.php");  // not logged in, redirect
-    exit();
-}
-
-$connection = mysqli_connect('localhost', 'root', '', 'KBPS_SYSTEM');
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    header("Location:index.php");  // error, redirect
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -114,9 +99,9 @@ if (mysqli_connect_errno()) {
                 </div>
             </div>
 
-            <form role="form" action="doctor_list.php" method="get">
+            <form role="form">
                 <div class="form-group input-group">
-                    <input type="text" name="kw" class="form-control" title="Search Prescriptions">
+                    <input type="text" class="form-control" title="Search Prescriptions">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <i class="fa fa-search"></i>
@@ -138,124 +123,94 @@ if (mysqli_connect_errno()) {
                     </tr>
                     </thead>
                     <tbody>
-                    <?php
-                    $query = 'select * from prescription';
-                    if (isset($_GET['kw'])) {
-                        $query .= ' where Content like \'%' . $_GET['kw'] . '%\'';
-                    }
-
-                    echo $query;
-
-                    $result = mysqli_query($connection, $query);
-                    if ($result)
-                        $result = $result->fetch_all();
-                    else
-                        $result = array();
-                    foreach ($result as $p) {
-                        $id = $p[0];
-                        $patient = '';
-                        $patient = mysqli_query($connection, 'select name from patient where id=' . $p[1])->fetch_all()[0][0];
-                        $description = $p[3];
-                        $date = $p[4];
-                        echo '<tr>
-                            <td>' . $id . '</td>
-                            <td>' . $patient . '</td>
-                            <td>' . $description . '</td>
-                            <td>' . $date . '</td>
-                            <td>' . strftime("%X", mktime(rand(0, 23), rand(0, 59), rand(0, 59))) . '</td>
-                            <td>' . rand(500, 20000) / 100.0 . '</td>
-                        </tr>';
-                    }
-
-                    ?>
-                    <!--                    <tr>-->
-                    <!--                        <td>110</td>-->
-                    <!--                        <td>Patient 10</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-05</td>-->
-                    <!--                        <td>13:32</td>-->
-                    <!--                        <td>71.32</td>-->
-                    <!--                    </tr>-->
-                    <!--                    <tr>-->
-                    <!--                        <td>109</td>-->
-                    <!--                        <td>Patient 9</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-04</td>-->
-                    <!--                        <td>09:32</td>-->
-                    <!--                        <td>23.71</td>-->
-                    <!--                    </tr>-->
-                    <!--                    <tr>-->
-                    <!--                        <td>108</td>-->
-                    <!--                        <td>Patient 8</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-03</td>-->
-                    <!--                        <td>13:32</td>-->
-                    <!--                        <td>201.21</td>-->
-                    <!--                    </tr>-->
-                    <!--                    <tr>-->
-                    <!--                        <td>107</td>-->
-                    <!--                        <td>Patient 7</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-02</td>-->
-                    <!--                        <td>20:08</td>-->
-                    <!--                        <td>9.63</td>-->
-                    <!--                    </tr>-->
-                    <!--                    <tr>-->
-                    <!--                        <td>106</td>-->
-                    <!--                        <td>Patient 6</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-02</td>-->
-                    <!--                        <td>18:38</td>-->
-                    <!--                        <td>89.65</td>-->
-                    <!--                    </tr>-->
-                    <!--                    <tr>-->
-                    <!--                        <td>105</td>-->
-                    <!--                        <td>Patient 5</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-02</td>-->
-                    <!--                        <td>11:52</td>-->
-                    <!--                        <td>86.35</td>-->
-                    <!--                    </tr>-->
-                    <!--                    <tr>-->
-                    <!--                        <td>104</td>-->
-                    <!--                        <td>Patient 4</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-01</td>-->
-                    <!--                        <td>15:08</td>-->
-                    <!--                        <td>23.45</td>-->
-                    <!--                    </tr>-->
-                    <!--                    <tr>-->
-                    <!--                        <td>103</td>-->
-                    <!--                        <td>Patient 3</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-01</td>-->
-                    <!--                        <td>14:22</td>-->
-                    <!--                        <td>70.28</td>-->
-                    <!--                    </tr>-->
-                    <!--                    <tr>-->
-                    <!--                        <td>102</td>-->
-                    <!--                        <td>Patient 2</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-01</td>-->
-                    <!--                        <td>14:00</td>-->
-                    <!--                        <td>98.91</td>-->
-                    <!--                    </tr>-->
-                    <!--                    <tr>-->
-                    <!--                        <td>101</td>-->
-                    <!--                        <td>Patient 2</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-01</td>-->
-                    <!--                        <td>13:50</td>-->
-                    <!--                        <td>89.60</td>-->
-                    <!--                    </tr>-->
-                    <!--                    <tr>-->
-                    <!--                        <td>100</td>-->
-                    <!--                        <td>Patient 1</td>-->
-                    <!--                        <td>Brief Description</td>-->
-                    <!--                        <td>2016-01-01</td>-->
-                    <!--                        <td>13:09</td>-->
-                    <!--                        <td>23.17</td>-->
-                    <!--                    </tr>-->
+                    <tr>
+                        <td>110</td>
+                        <td>Patient 10</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-05</td>
+                        <td>13:32</td>
+                        <td>71.32</td>
+                    </tr>
+                    <tr>
+                        <td>109</td>
+                        <td>Patient 9</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-04</td>
+                        <td>09:32</td>
+                        <td>23.71</td>
+                    </tr>
+                    <tr>
+                        <td>108</td>
+                        <td>Patient 8</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-03</td>
+                        <td>13:32</td>
+                        <td>201.21</td>
+                    </tr>
+                    <tr>
+                        <td>107</td>
+                        <td>Patient 7</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-02</td>
+                        <td>20:08</td>
+                        <td>9.63</td>
+                    </tr>
+                    <tr>
+                        <td>106</td>
+                        <td>Patient 6</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-02</td>
+                        <td>18:38</td>
+                        <td>89.65</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>Patient 5</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-02</td>
+                        <td>11:52</td>
+                        <td>86.35</td>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>Patient 4</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-01</td>
+                        <td>15:08</td>
+                        <td>23.45</td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>Patient 3</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-01</td>
+                        <td>14:22</td>
+                        <td>70.28</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Patient 2</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-01</td>
+                        <td>14:00</td>
+                        <td>98.91</td>
+                    </tr>
+                    <tr>
+                        <td>101</td>
+                        <td>Patient 2</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-01</td>
+                        <td>13:50</td>
+                        <td>89.60</td>
+                    </tr>
+                    <tr>
+                        <td>100</td>
+                        <td>Patient 1</td>
+                        <td>Brief Description</td>
+                        <td>2016-01-01</td>
+                        <td>13:09</td>
+                        <td>23.17</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
