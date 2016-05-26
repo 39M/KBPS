@@ -92,6 +92,9 @@ require_once("connect.php");
                 <li>
                     <a href="admin_prescription.php"><i class="fa fa-fw fa-desktop"></i> Prescription List</a>
                 </li>
+                <li>
+                    <a href="admin_log.php"><i class="fa fa-fw fa-desktop"></i> System Logs</a>
+                </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -141,7 +144,7 @@ require_once("connect.php");
                                 echo "</div>";
                             }
                     } else if (isset($_GET['action']) && $_GET['action'] == 'edit') {
-                        // UPDATE 
+                        // UPDATE
                     }
                 }
                 $showform = false;
@@ -173,7 +176,7 @@ require_once("connect.php");
                     ?>
 
                 <form role="form" method="post" action="admin_medicine.php?action=<?php echo $_GET['action'];?>">
-                       
+
                         <div id="patient_form" style="display: block">
                             <?php if ($_GET['action'] == 'edit') { ?>
                             <div class="form-group">

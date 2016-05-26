@@ -5,13 +5,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
     header("Location:index.php");  // not logged in, redirect
     exit();
 }
-
-$connection = mysqli_connect('localhost', 'root', '', 'KBPS_SYSTEM');
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    header("Location:index.php");  // error, redirect
-    exit();
-}
+require_once("connect.php");
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +80,7 @@ if (mysqli_connect_errno()) {
                     <a href="doctor_index.php"><i class="fa fa-fw fa-dashboard"></i> Home</a>
                 </li>
                 <li>
-                    <a href="doctor_make.php"><i class="fa fa-fw fa-edit"></i> Compose</a>
+                    <a href="doctor_make.php"><i class="fa fa-fw fa-edit"></i> New Prescription</a>
                 </li>
                 <li>
                     <a href="doctor_list.php"><i class="fa fa-fw fa-desktop"></i> Prescription List</a>
@@ -116,34 +110,7 @@ if (mysqli_connect_errno()) {
             </div>
 
             <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">
-                                        <?php
-                                        $result = mysqli_query($connection, 'SELECT * FROM prescription');
-                                        echo $result->num_rows;
-                                        ?>
-                                    </div>
-                                    <div>Prescriptions</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="doctor_list.php">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6">  <!-- prescriptions -->
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
@@ -152,10 +119,39 @@ if (mysqli_connect_errno()) {
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">
-                                        20
-                                        <!--                                            TODO: Reviews-->
+                                        <?php  // number of prescriptions
+                                        $presc = mysqli_query($con, "SELECT * FROM prescription WHERE doctor_ID = ".$_SESSION["userid"]);
+                                        printf("%d", mysqli_num_rows($presc));
+                                        ?>
                                     </div>
-                                    <div>Reviews</div>
+                                    <div>Prescriptions</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">  <!-- medicines -->
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">
+                                        <?php  // number of medicines
+                                        $med = mysqli_query($con, "SELECT * FROM medicine");
+                                        printf("%d", mysqli_num_rows($med));
+                                        ?>
+                                    </div>
+                                    <div>Medicine</div>
                                 </div>
                             </div>
                         </div>
@@ -177,10 +173,12 @@ if (mysqli_connect_errno()) {
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">
-                                        280
-                                        <!--                                            TODO: Orders-->
+                                        <?php  // number of disease
+                                        $disease = mysqli_query($con, "SELECT * FROM disease");
+                                        printf("%d", mysqli_num_rows($disease));
+                                        ?>
                                     </div>
-                                    <div>Orders</div>
+                                    <div>Diseases</div>
                                 </div>
                             </div>
                         </div>
@@ -202,10 +200,12 @@ if (mysqli_connect_errno()) {
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">
-                                        42
-                                        <!--                                            TODO: Notifications-->
+                                        <?php  // number of symptoms
+                                        $symptom = mysqli_query($con, "SELECT * FROM symptom");
+                                        printf("%d", mysqli_num_rows($symptom));
+                                        ?>
                                     </div>
-                                    <div>Notifications</div>
+                                    <div>Symptoms</div>
                                 </div>
                             </div>
                         </div>
@@ -220,7 +220,6 @@ if (mysqli_connect_errno()) {
                 </div>
             </div>
             <!-- /.row -->
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
@@ -265,7 +264,7 @@ if (mysqli_connect_errno()) {
                                 </a>
                                 <a href="#" class="list-group-item">
                                     <span class="badge">4 minutes ago</span>
-                                    <i class="fa fa-fw fa-comment"></i> New commented
+                                    <i class="fa fa-fw fa-comment"></i> New review
                                 </a>
                                 <a href="#" class="list-group-item">
                                     <span class="badge">46 minutes ago</span>

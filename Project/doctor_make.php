@@ -11,6 +11,36 @@ if (mysqli_connect_errno()) {
     header("Location:index.php");  // error, redirect
     exit();
 }
+
+$going_to_make = false;
+$patient_add_failed = false;
+$prescription_add_failed = false;
+
+if (isset($_POST['patient'])) {
+    $going_to_make = true;
+
+    if ($_POST['patient'] == 'add_patient') {
+        $p_name = $_POST['patient_name'];
+        $p_gender = $_POST['patient_gender'];
+        $p_age = $_POST['patient_age'];
+
+        $query = "INSERT INTO patient (Name, Gender, Age) VALUES ('$p_name', '$p_gender', $p_age)";
+//        echo $query;
+        if (!mysqli_query($connection, $query)) {
+            $patient_add_failed = true;
+        }
+        $p_id = $connection->insert_id;
+    } else
+        $p_id = $_POST['patient'];
+
+    $d_id = 1;
+    $content = $_POST['description'];
+
+    $query = "INSERT INTO prescription (patient_ID, doctor_ID, Content, Date) VALUES ($p_id, $d_id, '$content', now())";
+//    echo $query;
+    if (!mysqli_query($connection, $query))
+        $prescription_add_failed = true;
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +61,8 @@ if (mysqli_connect_errno()) {
 
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="css/bootstrap-tagsinput.css" rel="stylesheet">
+    <link href="css/bootstrap-tagsinput-typeahead.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -99,7 +131,7 @@ if (mysqli_connect_errno()) {
                     <a href="doctor_index.php"><i class="fa fa-fw fa-dashboard"></i> Home</a>
                 </li>
                 <li class="active">
-                    <a href="doctor_make.php"><i class="fa fa-fw fa-edit"></i> Compose</a>
+                    <a href="doctor_make.php"><i class="fa fa-fw fa-edit"></i> New Prescription</a>
                 </li>
                 <li>
                     <a href="doctor_list.php"><i class="fa fa-fw fa-desktop"></i> Prescription List</a>
@@ -117,77 +149,85 @@ if (mysqli_connect_errno()) {
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Compose
+                        New Prescription
                     </h1>
                     <ol class="breadcrumb">
                         <li>
                             <i class="fa fa-dashboard"></i> <a href="doctor_index.php">Home</a>
                         </li>
                         <li class="active">
-                            <i class="fa fa-edit"></i> Compose
+                            <i class="fa fa-edit"></i> New Prescription
                         </li>
                     </ol>
                 </div>
             </div>
             <!-- /.row -->
 
-            <form role="form">
+            <form role="form" action="doctor_make.php" method="post">
                 <div class="form-group">
                     <label>Patient</label>
-                    <select class="form-control" title="Select Patient" onchange="show_patient_table(this)">
+                    <select required class="form-control" name="patient" title="Select Patient"
+                            onchange="show_patient_table(this)">
                         <option value="add_patient">Add New</option>
 
-                        <option>Patient 1</option>
-                        <option>Patient 2</option>
-                        <option>Patient 3</option>
-                        <option>Patient 4</option>
-                        <option>Patient 5</option>
+                        <?php
+                        $result = mysqli_query($connection, 'select * from patient')->fetch_all();
+                        foreach ($result as $m)
+                            echo '<option value="' . $m[0] . '">' . $m[1] . '</option>'
+                        ?>
+
+                        <!--                        <option>Patient 2</option>-->
                     </select>
                 </div>
 
                 <div id="patient_form" style="display: block">
                     <div class="form-group">
                         <label>Patient Name</label>
-                        <input class="form-control" id="patient_name" placeholder="Enter Patient Name">
+                        <input required class="form-control" id="patient_name" name="patient_name"
+                               placeholder="Enter Patient Name">
                     </div>
                     <div class="form-group">
                         <label>Patient Age</label>
-                        <input type="number" class="form-control" id="patient_age" placeholder="Enter Patient Age">
+                        <input required type="number" class="form-control" id="patient_age" name="patient_age"
+                               placeholder="Enter Patient Age">
                     </div>
                     <div class="form-group">
                         <label>Patient Gender</label>
-                        <select class="form-control" id="patient_gender" title="Select Patient Gender">
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Others</option>
+                        <select required class="form-control" id="patient_gender" name="patient_gender"
+                                title="Select Patient Gender">
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value="O">Others</option>
                         </select>
                     </div>
                 </div>
 
+
                 <div class="form-group">
-                    <label>Symptoms</label>
-                    <input class="form-control" placeholder="Select patient symptoms">
+                    <label>Symptoms</label><br>
+                    <input required class="form-control" data-role="tagsinput" name="symptoms" placeholder="Select patient symptoms">
                 </div>
 
                 <div class="form-group">
-                    <label>Diseases</label>
-                    <input class="form-control" placeholder="Select patient diseases">
+                    <label>Diseases</label><br>
+                    <input required class="form-control" data-role="tagsinput" name="diseases" placeholder="Select patient diseases">
                 </div>
 
                 <div class="form-group">
-                    <label>Medicine</label>
-                    <select multiple class="form-control">
-                        <option>Medicine 1</option>
-                        <option>Medicine 2</option>
-                        <option>Medicine 3</option>
-                        <option>Medicine 4</option>
-                        <option>Medicine 5</option>
+                    <label>Medicine</label><br>
+                    <select required multiple data-role="tagsinput" class="form-control" title="medicine" name="medicine" placeholder="Select medicine">
+<!--                        --><?php
+//                        $result = mysqli_query($connection, 'select * from medicine')->fetch_all();
+//                        foreach ($result as $m)
+//                            echo '<option value="' . $m[1] . '">' . $m[1] . '</option>'
+//                        ?>
+                        <!--                        <option>Medicine 1</option>-->
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label>Description</label>
-                            <textarea class="form-control" rows="3"
+                            <textarea required class="form-control" name="description" rows="3"
                                       placeholder="Write prescription description"></textarea>
                 </div>
 
@@ -209,6 +249,30 @@ if (mysqli_connect_errno()) {
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-tagsinput.js"></script>
+<script src="js/bootstrap-tagsinput-angular.js"></script>
+
+<?php
+
+if (!$going_to_make)
+    exit();
+
+if ($patient_add_failed) {
+    echo '<script language="javascript">' .
+        'alert("Patient add failed!")' .
+        '</script>';
+    exit();
+}
+
+if ($prescription_add_failed)
+    echo '<script language="javascript">' .
+        'alert("Prescription made failed!")' .
+        '</script>';
+else
+    echo '<script language="javascript">' .
+        'alert("Prescription made successfully!")' .
+        '</script>';
+?>
 
 </body>
 
