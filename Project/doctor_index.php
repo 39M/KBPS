@@ -5,6 +5,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
     header("Location:index.php");  // not logged in, redirect
     exit();
 }
+require_once("connect.php");
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +80,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
                     <a href="doctor_index.php"><i class="fa fa-fw fa-dashboard"></i> Home</a>
                 </li>
                 <li>
-                    <a href="doctor_make.php"><i class="fa fa-fw fa-edit"></i> Compose</a>
+                    <a href="doctor_make.php"><i class="fa fa-fw fa-edit"></i> New Prescription</a>
                 </li>
                 <li>
                     <a href="doctor_list.php"><i class="fa fa-fw fa-desktop"></i> Prescription List</a>
@@ -109,7 +110,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
             </div>
 
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6">  <!-- prescriptions -->
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
@@ -118,10 +119,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">
-                                        20
-                                        <!--                                            TODO: Comments-->
+                                        <?php  // number of prescriptions
+                                        $presc = mysqli_query($con, "SELECT * FROM prescription WHERE doctor_ID = ".$_SESSION["userid"]);
+                                        printf("%d", mysqli_num_rows($presc));
+                                        ?>
                                     </div>
-                                    <div>Comments</div>
+                                    <div>Prescriptions</div>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +137,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6">  <!-- medicines -->
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
@@ -143,10 +146,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">
-                                        256
-                                        <!--                                            TODO: Prescriptions-->
+                                        <?php  // number of medicines
+                                        $med = mysqli_query($con, "SELECT * FROM medicine");
+                                        printf("%d", mysqli_num_rows($med));
+                                        ?>
                                     </div>
-                                    <div>Prescriptions</div>
+                                    <div>Medicine</div>
                                 </div>
                             </div>
                         </div>
@@ -168,10 +173,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">
-                                        280
-                                        <!--                                            TODO: Orders-->
+                                        <?php  // number of disease
+                                        $disease = mysqli_query($con, "SELECT * FROM disease");
+                                        printf("%d", mysqli_num_rows($disease));
+                                        ?>
                                     </div>
-                                    <div>Orders</div>
+                                    <div>Diseases</div>
                                 </div>
                             </div>
                         </div>
@@ -193,10 +200,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">
-                                        42
-                                        <!--                                            TODO: Notifications-->
+                                        <?php  // number of symptoms
+                                        $symptom = mysqli_query($con, "SELECT * FROM symptom");
+                                        printf("%d", mysqli_num_rows($symptom));
+                                        ?>
                                     </div>
-                                    <div>Notifications</div>
+                                    <div>Symptoms</div>
                                 </div>
                             </div>
                         </div>
@@ -211,7 +220,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
                 </div>
             </div>
             <!-- /.row -->
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">

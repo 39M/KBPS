@@ -129,7 +129,7 @@ if (isset($_POST['patient'])) {
                     <a href="doctor_index.php"><i class="fa fa-fw fa-dashboard"></i> Home</a>
                 </li>
                 <li class="active">
-                    <a href="doctor_make.php"><i class="fa fa-fw fa-edit"></i> Compose</a>
+                    <a href="doctor_make.php"><i class="fa fa-fw fa-edit"></i> New Prescription</a>
                 </li>
                 <li>
                     <a href="doctor_list.php"><i class="fa fa-fw fa-desktop"></i> Prescription List</a>
@@ -147,14 +147,14 @@ if (isset($_POST['patient'])) {
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Compose
+                        New Prescription
                     </h1>
                     <ol class="breadcrumb">
                         <li>
                             <i class="fa fa-dashboard"></i> <a href="doctor_index.php">Home</a>
                         </li>
                         <li class="active">
-                            <i class="fa fa-edit"></i> Compose
+                            <i class="fa fa-edit"></i> New Prescription
                         </li>
                     </ol>
                 </div>
