@@ -5,6 +5,13 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
     header("Location:index.php");  // not logged in, redirect
     exit();
 }
+
+$connection = mysqli_connect('localhost', 'root', '', 'KBPS_SYSTEM');
+if (mysqli_connect_errno()) {
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    header("Location:index.php");  // error, redirect
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -110,22 +117,24 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
 
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
+                                    <i class="fa fa-tasks fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">
-                                        20
-                                        <!--                                            TODO: Comments-->
+                                        <?php
+                                        $result = mysqli_query($connection, 'SELECT * FROM prescription');
+                                        echo $result->num_rows;
+                                        ?>
                                     </div>
-                                    <div>Comments</div>
+                                    <div>Prescriptions</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="doctor_list.php">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -135,18 +144,18 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'doctor')
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-green">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
+                                    <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">
-                                        256
-                                        <!--                                            TODO: Prescriptions-->
+                                        20
+                                        <!--                                            TODO: Reviews-->
                                     </div>
-                                    <div>Prescriptions</div>
+                                    <div>Reviews</div>
                                 </div>
                             </div>
                         </div>
