@@ -264,7 +264,7 @@ require_once("connect.php");
                                 </a>
                                 <a href="#" class="list-group-item">
                                     <span class="badge">4 minutes ago</span>
-                                    <i class="fa fa-fw fa-comment"></i> New commented
+                                    <i class="fa fa-fw fa-comment"></i> New review
                                 </a>
                                 <a href="#" class="list-group-item">
                                     <span class="badge">46 minutes ago</span>
