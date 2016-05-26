@@ -61,6 +61,8 @@ if (isset($_POST['patient'])) {
 
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="css/bootstrap-tagsinput.css" rel="stylesheet">
+    <link href="css/bootstrap-tagsinput-typeahead.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -200,24 +202,25 @@ if (isset($_POST['patient'])) {
                     </div>
                 </div>
 
+
                 <div class="form-group">
-                    <label>Symptoms</label>
-                    <input required class="form-control" name="symptoms" placeholder="Select patient symptoms">
+                    <label>Symptoms</label><br>
+                    <input required class="form-control" data-role="tagsinput" name="symptoms" placeholder="Select patient symptoms">
                 </div>
 
                 <div class="form-group">
-                    <label>Diseases</label>
-                    <input required class="form-control" name="diseases" placeholder="Select patient diseases">
+                    <label>Diseases</label><br>
+                    <input required class="form-control" data-role="tagsinput" name="diseases" placeholder="Select patient diseases">
                 </div>
 
                 <div class="form-group">
-                    <label>Medicine</label>
-                    <select required multiple class="form-control" title="medicine" name="medicine">
-                        <?php
-                        $result = mysqli_query($connection, 'select * from medicine')->fetch_all();
-                        foreach ($result as $m)
-                            echo '<option value="' . $m[0] . '">' . $m[1] . '</option>'
-                        ?>
+                    <label>Medicine</label><br>
+                    <select required multiple data-role="tagsinput" class="form-control" title="medicine" name="medicine" placeholder="Select medicine">
+<!--                        --><?php
+//                        $result = mysqli_query($connection, 'select * from medicine')->fetch_all();
+//                        foreach ($result as $m)
+//                            echo '<option value="' . $m[1] . '">' . $m[1] . '</option>'
+//                        ?>
                         <!--                        <option>Medicine 1</option>-->
                     </select>
                 </div>
@@ -246,6 +249,8 @@ if (isset($_POST['patient'])) {
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-tagsinput.js"></script>
+<script src="js/bootstrap-tagsinput-angular.js"></script>
 
 <?php
 

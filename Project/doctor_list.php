@@ -138,7 +138,7 @@ if (mysqli_connect_errno()) {
                     </thead>
                     <tbody>
                     <?php
-                    $query = 'select * from prescription';
+                    $query = 'select * from prescription where doctor_ID = '.$_SESSION['userid'];
                     if (isset($_GET['kw'])) {
                         $query .= ' where Content like \'%' . $_GET['kw'] . '%\'';
                     }
