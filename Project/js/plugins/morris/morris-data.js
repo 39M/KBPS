@@ -5,10 +5,7 @@ $(function () {
     // Area Chart
     Morris.Area({
         element: 'morris-area-chart',
-        data: [{
-            period: '2016-01-01',
-            pres: 50
-        }, {period: '2016-01-01', pres: 55}, {period: '2016-01-02', pres: 49}, {
+        data: [{period: '2016-01-01', pres: 55}, {period: '2016-01-02', pres: 49}, {
             period: '2016-01-03',
             pres: 55
         }, {period: '2016-01-04', pres: 59}, {period: '2016-01-05', pres: 40}, {
